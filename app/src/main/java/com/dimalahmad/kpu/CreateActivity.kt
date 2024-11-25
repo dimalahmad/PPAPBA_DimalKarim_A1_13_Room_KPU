@@ -18,33 +18,44 @@ import java.util.concurrent.Executors
 class CreateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateBinding
     private lateinit var executorService: ExecutorService
-    private lateinit var dataPemilihDao : DataPemilihDao
+    private lateinit var dataPemilihDao: DataPemilihDao
 
+    // onCreate adalah fungsi pertama yang dipanggil saat activity ini dibuka
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Menyiapkan executor service untuk operasi latar belakang
         executorService = Executors.newSingleThreadExecutor()
+
+        // Mendapatkan instance database dan DataPemilihDao
         val db = DataPemilihDatabase.getDatabase(this)
         dataPemilihDao = db!!.dataPemilihDao()
-        with(binding){
+
+        // Menangani klik pada tombol Simpan
+        with(binding) {
             btnSimpan.setOnClickListener {
+                // Mengambil id radio button yang dipilih
                 val selectedGenderId = binding.rgGender.checkedRadioButtonId
                 val gender = when (selectedGenderId) {
-                    binding.rbMale.id -> "Laki-laki"
-                    binding.rbFemale.id -> "Perempuan"
-                    else -> "Tidak ada yang dipilih"
+                    binding.rbMale.id -> "Laki-laki"  // Jika laki-laki dipilih
+                    binding.rbFemale.id -> "Perempuan"  // Jika perempuan dipilih
+                    else -> "Tidak ada yang dipilih"  // Jika tidak ada yang dipilih
                 }
-                // Validasi Input
+
+                // Validasi input
                 if (etNamaPemilih.text.isNullOrBlank() ||
                     etNik.text.isNullOrBlank() ||
                     gender == "Tidak ada yang dipilih" ||
                     etAlamat.text.isNullOrBlank()
                 ) {
-                    // Jika data tidak valid
+                    // Menampilkan pesan jika data tidak lengkap
                     showToast("Semua data harus diisi dengan benar!")
                     return@setOnClickListener
                 }
+
+                // Jika data valid, insert data ke database
                 insert(
                     DataPemilih(
                         nama = etNamaPemilih.text.toString(),
@@ -53,29 +64,39 @@ class CreateActivity : AppCompatActivity() {
                         alamat = etAlamat.text.toString(),
                     )
                 )
+                // Menampilkan pesan berhasil dan membersihkan field
                 showToast("Data berhasil disimpan!")
                 setEmptyField()
+
+                // Mengarahkan pengguna kembali ke MainActivity
                 val startActivity = Intent(this@CreateActivity, MainActivity::class.java)
                 startActivity(startActivity)
-                finish()
+                finish()  // Menutup activity ini
             }
         }
     }
-    private fun insert(dataPemilih: DataPemilih){
+
+    // Fungsi untuk menyimpan data pemilih ke dalam database
+    private fun insert(dataPemilih: DataPemilih) {
         executorService.execute {
-            dataPemilihDao.insert(dataPemilih)
+            dataPemilihDao.insert(dataPemilih)  // Menyimpan data ke dalam database
             runOnUiThread {
+                // Setelah insert selesai, kembali ke MainActivity
                 val intent = Intent(this@CreateActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }
     }
+
+    // Fungsi untuk menampilkan Toast message
     private fun showToast(message: String) {
         runOnUiThread {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    // Fungsi untuk membersihkan field setelah data disimpan
     private fun setEmptyField() {
         with(binding) {
             etNamaPemilih.text?.clear()

@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Layout Horizontal untuk menampilkan data -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +13,7 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
+        <!-- Nomor urut, misalnya "1." -->
         <TextView
             android:id="@+id/nomer"
             android:layout_width="wrap_content"
@@ -22,6 +24,7 @@
             android:layout_marginLeft="10dp"
             android:textStyle="bold" />
 
+        <!-- Nama atau teks utama yang ditampilkan -->
         <TextView
             android:id="@+id/nama"
             android:layout_weight="3"
@@ -30,6 +33,7 @@
             android:text="Roy Kafabih SIGMA SKIBIDI"
             android:textStyle="bold" />
 
+        <!-- Ikon Edit, untuk mengedit data -->
         <ImageView
             android:id="@+id/edit"
             android:layout_width="30dp"
@@ -38,6 +42,7 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/baseline_edit_24" />
 
+        <!-- Ikon View Detail, untuk melihat detail data -->
         <ImageView
             android:id="@+id/viewDetail"
             android:layout_width="30dp"
@@ -46,6 +51,7 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/baseline_remove_red_eye_24" />
 
+        <!-- Ikon Delete, untuk menghapus data -->
         <ImageView
             android:id="@+id/delete"
             android:layout_width="30dp"
@@ -54,6 +60,4 @@
             android:layout_marginRight="5dp"
             android:src="@drawable/baseline_delete_24" />
     </LinearLayout>
-
-
 </LinearLayout>

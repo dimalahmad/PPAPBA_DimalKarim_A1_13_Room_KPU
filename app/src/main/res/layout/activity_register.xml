@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Login.RegisterActivity">
 
+    <!-- Judul Halaman Register -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Input untuk Username -->
     <EditText
         android:id="@+id/edt_username"
         android:layout_width="match_parent"
@@ -29,6 +30,8 @@
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Input untuk Password -->
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
@@ -40,6 +43,8 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edt_username" />
+
+    <!-- Input untuk Konfirmasi Password -->
     <EditText
         android:id="@+id/Confirmpassword"
         android:layout_width="match_parent"
@@ -52,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edt_password" />
 
-
+    <!-- Tombol untuk Melakukan Register -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
@@ -68,6 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Confirmpassword" />
 
+    <!-- Tombol untuk Kembali ke Halaman Login -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
