@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:padding="10dp"
-        android:text="Apps ini di gunakan oleh petugas KPU untuk mendata peserta pemilu"
+        android:text="Apps ini digunakan oleh petugas KPU untuk mendata peserta pemilu"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

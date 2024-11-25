@@ -25,40 +25,40 @@ class MainActivity : AppCompatActivity() {
     private lateinit var executorService: ExecutorService
     private lateinit var adapter: DataPemilihAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         prefManager = PrefManager.getInstance(this)
+
         checkLoginStatus()
+
         executorService = Executors.newSingleThreadExecutor()
         val db = DataPemilihDatabase.getDatabase(this)
         dataPemilihDao = db!!.dataPemilihDao()
-        setupRecyclerView()
-        with(binding){
-            btnTambah.setOnClickListener {
-                val startActivity = Intent(this@MainActivity, CreateActivity::class.java)
-                startActivity(startActivity)
-            }
-            btnLogout.setOnClickListener {
-                prefManager.clear()
-                finish()
 
+        setupRecyclerView()
+
+        with(binding) {
+            btnTambah.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CreateActivity::class.java))
+            }
+
+            // Tombol logout, hanya menghapus status login, tanpa menghapus data
+            btnLogout.setOnClickListener {
+                prefManager.setLoggedIn(false)  // Mengubah status login menjadi false
+                navigateToLoginActivity()      // Pindah ke LoginActivity
             }
         }
-
     }
+
     private fun setupRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = DataPemilihAdapter(this) { data ->
-            deleteData(data)
-        }
+        adapter = DataPemilihAdapter(this) { data -> deleteData(data) }
         binding.recyclerView.adapter = adapter
 
-        // Amati perubahan data dari LiveData
         dataPemilihDao.getAllDataPemilih().observe(this) { dataList ->
-            adapter.submitList(dataList) // Perbarui dataset
+            adapter.submitList(dataList) // Update dataset
         }
     }
 
@@ -70,11 +70,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    fun checkLoginStatus() {
+
+    private fun checkLoginStatus() {
         val isLoggedIn = prefManager.isLoggedIn()
         if (!isLoggedIn) {
-            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-            finish()
+            navigateToLoginActivity()
         }
     }
+
+    private fun navigateToLoginActivity() {
+        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
+
